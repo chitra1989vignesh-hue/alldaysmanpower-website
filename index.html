@@ -834,7 +834,17 @@
       }
     } catch (err) {
       console.error(err);
-      fallbackWhatsApp();
+      // Backend asleep — still show confirmation for cash, fallback WA for UPI
+      if (selectedPayMethod === 'cash') {
+        closeModal();
+        const tempId = 'HS-' + Date.now().toString(36).toUpperCase();
+        document.getElementById('confirmBookingId').textContent = tempId;
+        document.getElementById('confirmWaBtn').href = 'https://wa.me/' + OWNER_WA + '?text=Hi%20All%20Days%20Manpower!%20I%20booked%20' + encodeURIComponent(document.getElementById('fservice').value) + '%20for%20' + encodeURIComponent(document.getElementById('fdate').value) + '.%20Please%20confirm!';
+        document.getElementById('confirmOverlay').classList.add('show');
+        resetForm();
+      } else {
+        fallbackWhatsApp();
+      }
     } finally {
       btn.textContent = 'Confirm Booking →';
       btn.disabled = false;
