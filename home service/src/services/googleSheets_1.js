@@ -93,7 +93,7 @@ async function ensureHeaders() {
 async function logBooking(booking) {
   const values = [
     booking.bookingId,
-    new Date(booking.createdAt).toLocaleString('en-IN'),
+    new Date().toLocaleDateString('en-IN', {day:'2-digit',month:'2-digit',year:'numeric'}) + ' ' + new Date().toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit',hour12:true}),
     booking.name,
     booking.phone,
     booking.email || '',
