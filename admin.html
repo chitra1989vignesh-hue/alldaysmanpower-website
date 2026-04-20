@@ -187,15 +187,39 @@ tr:hover td { background: var(--gray-light); }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ── RESPONSIVE ── */
+/* ── MOBILE HAMBURGER ── */
+.mob-topbar { display: none; align-items: center; justify-content: space-between; padding: 0 1rem; height: 60px; background: var(--black); position: sticky; top: 0; z-index: 200; }
+.mob-topbar h3 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; color: #fff; }
+.mob-topbar h3 span { color: var(--red); }
+.mob-menu-btn { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; padding: .3rem; }
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 150; }
+.sidebar-overlay.show { display: block; }
+
 @media (max-width: 1024px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 768px) {
-  .sidebar { transform: translateX(-100%); }
+  .mob-topbar { display: flex; }
+  .sidebar { transform: translateX(-100%); z-index: 160; }
   .sidebar.open { transform: translateX(0); }
   .main-content { margin-left: 0; }
+  .topbar { display: none; }
   .stats-row { grid-template-columns: repeat(2, 1fr); }
-  .search-input { width: 140px; }
+  .search-input { width: 120px; }
+  .table-header { flex-direction: column; align-items: flex-start; }
+  .table-actions { width: 100%; flex-wrap: wrap; }
+  .search-input { width: 100%; }
+  td, th { padding: .6rem .8rem; font-size: .8rem; }
+  .modal-box { padding: 1.5rem; }
+  .content-area { padding: 1rem; }
+  .stats-row { gap: .8rem; }
+  .stat-card { padding: 1rem; }
+  .stat-card h3 { font-size: 1.4rem; }
 }
-@media (max-width: 480px) { .stats-row { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) {
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .action-btns { flex-wrap: wrap; }
+  .invoice-header { flex-direction: column; gap: 1rem; }
+  .invoice-meta { text-align: left; }
+}
 </style>
 </head>
 <body>
@@ -222,6 +246,16 @@ tr:hover td { background: var(--gray-light); }
 
 <!-- ── ADMIN LAYOUT ── -->
 <div class="admin-layout" id="adminLayout">
+
+  <!-- MOBILE TOPBAR -->
+  <div class="mob-topbar">
+    <button class="mob-menu-btn" onclick="toggleSidebar()">☰</button>
+    <h3>ALL <span>DAYS</span> Admin</h3>
+    <button class="mob-menu-btn" onclick="refreshData()">🔄</button>
+  </div>
+
+  <!-- SIDEBAR OVERLAY -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
   <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
@@ -864,6 +898,24 @@ tr:hover td { background: var(--gray-light); }
     return {'House Cleaning':'🧹','Electrician':'⚡','Plumbing':'🔧','Driver':'🚗'}[svc] || '🏠';
   }
   function capitalize(str) { return str ? str.charAt(0).toUpperCase() + str.slice(1) : ''; }
+
+  // Sidebar toggle for mobile
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+  }
+
+  // Close sidebar when nav item clicked on mobile
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebarOverlay').classList.remove('show');
+      }
+    });
+  });
 
   // Enter key login
   document.addEventListener('keydown', e => {
