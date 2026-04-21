@@ -196,30 +196,65 @@ tr:hover td { background: var(--gray-light); }
 .sidebar-overlay.show { display: block; }
 
 @media (max-width: 1024px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+
 @media (max-width: 768px) {
+  div.desktop-table { display: none !important; }
+  div.booking-cards { display: flex !important; }
   .mob-topbar { display: flex; }
   .sidebar { transform: translateX(-100%); z-index: 160; }
   .sidebar.open { transform: translateX(0); }
-  .main-content { margin-left: 0; }
+  .main-content { margin-left: 0; display: flex; flex-direction: column; min-height: 100vh; }
   .topbar { display: none; }
-  .stats-row { grid-template-columns: repeat(2, 1fr); }
-  .search-input { width: 120px; }
-  .table-header { flex-direction: column; align-items: flex-start; }
-  .table-actions { width: 100%; flex-wrap: wrap; }
-  .search-input { width: 100%; }
-  td, th { padding: .6rem .8rem; font-size: .8rem; }
-  .modal-box { padding: 1.5rem; }
-  .content-area { padding: 1rem; }
-  .stats-row { gap: .8rem; }
+  .content-area { padding: .8rem; flex: 1; }
+  .stats-row { grid-template-columns: 1fr 1fr; gap: .8rem; margin-bottom: 1rem; }
   .stat-card { padding: 1rem; }
-  .stat-card h3 { font-size: 1.4rem; }
+  .stat-card-icon { font-size: 1.4rem; margin-bottom: .3rem; }
+  .stat-card h3 { font-size: 1.5rem; }
+  .stat-card p { font-size: .75rem; }
+  .table-card { border-radius: 12px; overflow: hidden; }
+  .table-header { padding: 1rem; flex-direction: column; align-items: flex-start; gap: .6rem; }
+  .table-header h3 { font-size: .95rem; }
+  .table-actions { width: 100%; flex-direction: column; gap: .5rem; }
+  .search-input { width: 100%; box-sizing: border-box; }
+  .status-select { width: 100%; }
+  .desktop-table { display: none !important; }
+  .booking-cards { display: flex; }
+  .modal-box { padding: 1.2rem; margin: .5rem; max-height: 85vh; }
+  .detail-row { flex-direction: column; gap: .2rem; }
+  .detail-label { min-width: unset; font-size: .8rem; }
+  .invoice-header { flex-direction: column; gap: .8rem; }
+  .invoice-meta { text-align: left; }
+  .nav-item { padding: .7rem 1.2rem; }
 }
+
 @media (max-width: 480px) {
   .stats-row { grid-template-columns: 1fr 1fr; }
-  .action-btns { flex-wrap: wrap; }
+  .content-area { padding: .6rem; }
+}
+  .action-btns { flex-wrap: wrap; gap: .3rem; }
   .invoice-header { flex-direction: column; gap: 1rem; }
   .invoice-meta { text-align: left; }
+  .btn-sm { font-size: .75rem; padding: .35rem .7rem; }
 }
+
+  /* ── MOBILE BOOKING CARDS ── */
+  .booking-cards { display: none; flex-direction: column; gap: .8rem; padding: 1rem; }
+  .booking-card-mob { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 1rem; transition: all .2s; }
+  .booking-card-mob:hover { border-color: var(--blue); }
+  .bcm-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: .5rem; }
+  .bcm-id { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--blue); font-size: .82rem; }
+  .bcm-name { font-weight: 600; font-size: .95rem; color: var(--black); }
+  .bcm-phone { font-size: .8rem; color: var(--gray); }
+  .bcm-info { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; margin: .6rem 0; }
+  .bcm-info span { font-size: .8rem; color: var(--gray); background: var(--gray-light); padding: .3rem .6rem; border-radius: 6px; }
+  .bcm-actions { display: flex; gap: .5rem; margin-top: .8rem; padding-top: .8rem; border-top: 1px solid var(--border); }
+  .bcm-actions button { flex: 1; padding: .55rem .3rem; border-radius: 8px; border: none; cursor: pointer; font-size: .78rem; font-weight: 600; font-family: 'DM Sans', sans-serif; transition: all .2s; }
+  .bcm-btn-view { background: var(--blue-light); color: var(--blue); }
+  .bcm-btn-wa { background: #D1FAE5; color: #065F46; }
+  .bcm-btn-inv { background: #E0E7FF; color: #3730A3; }
+  .bcm-btn-view:hover { background: var(--blue); color: #fff; }
+  .bcm-btn-wa:hover { background: #25D366; color: #fff; }
+  .bcm-btn-inv:hover { background: #3730A3; color: #fff; }
 </style>
 </head>
 <body>
@@ -249,9 +284,15 @@ tr:hover td { background: var(--gray-light); }
 
   <!-- MOBILE TOPBAR -->
   <div class="mob-topbar">
-    <button class="mob-menu-btn" onclick="toggleSidebar()">☰</button>
-    <h3>ALL <span>DAYS</span> Admin</h3>
-    <button class="mob-menu-btn" onclick="refreshData()">🔄</button>
+    <button class="mob-menu-btn" onclick="toggleSidebar()" style="font-size:1.6rem;">☰</button>
+    <div style="display:flex;align-items:center;gap:.5rem;">
+      <img src="logo.jpg" style="height:32px;width:auto;border-radius:4px;" alt="logo"/>
+      <div>
+        <div style="font-family:Syne,sans-serif;font-size:.85rem;font-weight:800;color:#fff;line-height:1.1;">ALL <span style="color:var(--red);">DAYS</span></div>
+        <div style="font-size:.6rem;color:rgba(255,255,255,.5);letter-spacing:.06em;">ADMIN PANEL</div>
+      </div>
+    </div>
+    <button class="mob-menu-btn" onclick="refreshData()" style="font-size:1.2rem;">🔄</button>
   </div>
 
   <!-- SIDEBAR OVERLAY -->
@@ -325,9 +366,10 @@ tr:hover td { background: var(--gray-light); }
             <h3>📋 Recent Bookings</h3>
             <button class="btn-sm btn-blue" onclick="showPage('bookings')">View All</button>
           </div>
-          <div id="recentBookingsTable">
+          <div id="recentBookingsTable" class="desktop-table" style="overflow-x:auto;">
             <div class="loading"><div class="spinner"></div>Loading bookings...</div>
           </div>
+          <div id="recentBookingsMob" class="booking-cards"></div>
         </div>
       </div>
 
@@ -355,9 +397,10 @@ tr:hover td { background: var(--gray-light); }
               <input class="search-input" id="searchBooking" placeholder="Search name/ID..." oninput="filterBookings()"/>
             </div>
           </div>
-          <div id="allBookingsTable">
+          <div id="allBookingsTable" class="desktop-table" style="overflow-x:auto;">
             <div class="loading"><div class="spinner"></div>Loading...</div>
           </div>
+          <div id="allBookingsMob" class="booking-cards"></div>
         </div>
       </div>
 
@@ -577,7 +620,36 @@ tr:hover td { background: var(--gray-light); }
     if (page === 'invoices') renderInvoiceBookings(allBookings);
   }
 
-  // ── Render Dashboard ─────────────────────
+    // ── Render mobile booking cards ──────────────────────────────────
+  function renderMobileCards(bookings, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    if (!bookings.length) {
+      container.innerHTML = '<div class="empty-state" style="padding:1.5rem;text-align:center;color:#6B7280;">No bookings found</div>';
+      return;
+    }
+    container.innerHTML = bookings.map(b => `
+      <div class="booking-card-mob">
+        <div class="bcm-top">
+          <div><div class="bcm-name">${b.name}</div><div class="bcm-phone">${b.phone}</div></div>
+          <span class="badge badge-${b.status}">${capitalize(b.status)}</span>
+        </div>
+        <div class="bcm-id">${b.bookingId}</div>
+        <div class="bcm-info">
+          <span>${serviceEmoji(b.service)} ${b.service}</span>
+          <span>📅 ${b.date}</span>
+          <span>📍 ${b.city}</span>
+          <span>💳 ${b.payment && b.payment.method ? b.payment.method : 'UPI'}</span>
+        </div>
+        <div class="bcm-actions">
+          <button class="bcm-btn-view" onclick="viewBooking('${b.bookingId}')">👁 View</button>
+          <button class="bcm-btn-wa" onclick="waBooking('${b.bookingId}')">💬 WA</button>
+          <button class="bcm-btn-inv" onclick="generateInvoice('${b.bookingId}')">🧾 Invoice</button>
+        </div>
+      </div>`).join('');
+  }
+
+// ── Render Dashboard ─────────────────────
   function renderDashboard() {
     const pending   = allBookings.filter(b => b.status === 'pending').length;
     const completed = allBookings.filter(b => b.status === 'completed').length;
@@ -591,6 +663,7 @@ tr:hover td { background: var(--gray-light); }
     document.getElementById('recentBookingsTable').innerHTML = recent.length
       ? buildBookingTable(recent, false)
       : '<div class="empty-state"><p>No bookings yet</p></div>';
+    renderMobileCards(recent, 'recentBookingsMob');
   }
 
   // ── Render All Bookings ──────────────────
@@ -598,6 +671,7 @@ tr:hover td { background: var(--gray-light); }
     document.getElementById('allBookingsTable').innerHTML = bookings.length
       ? buildBookingTable(bookings, true)
       : '<div class="empty-state"><p>No bookings found</p></div>';
+    renderMobileCards(bookings, 'allBookingsMob');
   }
 
   function buildBookingTable(bookings, showActions) {
@@ -854,7 +928,26 @@ tr:hover td { background: var(--gray-light); }
         td{padding:.5rem .8rem;border-bottom:1px solid #E5E7EB;}
         .total-row{display:flex;justify-content:flex-end;gap:2rem;padding:.3rem 0;}
         .final{font-weight:800;font-size:1rem;color:#1A47A3;border-top:2px solid #1A47A3;padding-top:.5rem;}
-      </style></head><body>${content}</body></html>`);
+      
+  /* ── MOBILE BOOKING CARDS ── */
+  .booking-cards { display: none; flex-direction: column; gap: .8rem; padding: 1rem; }
+  .booking-card-mob { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 1rem; transition: all .2s; }
+  .booking-card-mob:hover { border-color: var(--blue); }
+  .bcm-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: .5rem; }
+  .bcm-id { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--blue); font-size: .82rem; }
+  .bcm-name { font-weight: 600; font-size: .95rem; color: var(--black); }
+  .bcm-phone { font-size: .8rem; color: var(--gray); }
+  .bcm-info { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; margin: .6rem 0; }
+  .bcm-info span { font-size: .8rem; color: var(--gray); background: var(--gray-light); padding: .3rem .6rem; border-radius: 6px; }
+  .bcm-actions { display: flex; gap: .5rem; margin-top: .8rem; padding-top: .8rem; border-top: 1px solid var(--border); }
+  .bcm-actions button { flex: 1; padding: .55rem .3rem; border-radius: 8px; border: none; cursor: pointer; font-size: .78rem; font-weight: 600; font-family: 'DM Sans', sans-serif; transition: all .2s; }
+  .bcm-btn-view { background: var(--blue-light); color: var(--blue); }
+  .bcm-btn-wa { background: #D1FAE5; color: #065F46; }
+  .bcm-btn-inv { background: #E0E7FF; color: #3730A3; }
+  .bcm-btn-view:hover { background: var(--blue); color: #fff; }
+  .bcm-btn-wa:hover { background: #25D366; color: #fff; }
+  .bcm-btn-inv:hover { background: #3730A3; color: #fff; }
+</style></head><body>${content}</body></html>`);
     w.document.close();
     w.print();
   }
