@@ -230,7 +230,6 @@ tr:hover td { background: var(--gray-light); }
 @media (max-width: 480px) {
   .stats-row { grid-template-columns: 1fr 1fr; }
   .content-area { padding: .6rem; }
-}
   .action-btns { flex-wrap: wrap; gap: .3rem; }
   .invoice-header { flex-direction: column; gap: 1rem; }
   .invoice-meta { text-align: left; }
@@ -620,7 +619,7 @@ tr:hover td { background: var(--gray-light); }
     if (page === 'invoices') renderInvoiceBookings(allBookings);
   }
 
-  /  // ── Render mobile booking cards ──────────────────────────────────
+  // ── Render mobile booking cards ──────────────────────────────────
   function renderMobileCards(bookings, containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -649,7 +648,7 @@ tr:hover td { background: var(--gray-light); }
       </div>`).join('');
   }
 
-/ ── Render Dashboard ─────────────────────
+// ── Render Dashboard ─────────────────────
   function renderDashboard() {
     const pending   = allBookings.filter(b => b.status === 'pending').length;
     const completed = allBookings.filter(b => b.status === 'completed').length;
