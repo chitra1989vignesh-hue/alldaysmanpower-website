@@ -199,7 +199,7 @@ tr:hover td { background: var(--gray-light); }
 
 @media (max-width: 768px) {
   div.desktop-table { display: none !important; }
-  div.booking-cards { display: flex !important; }
+  div.booking-cards { display: flex !important; flex-direction: column !important; width: 100% !important; }
   .mob-topbar { display: flex; }
   .sidebar { transform: translateX(-100%); z-index: 160; }
   .sidebar.open { transform: translateX(0); }
@@ -238,8 +238,8 @@ tr:hover td { background: var(--gray-light); }
 }
 
   /* ── MOBILE BOOKING CARDS ── */
-  .booking-cards { display: none; flex-direction: column; gap: .8rem; padding: 1rem; }
-  .booking-card-mob { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 1rem; transition: all .2s; }
+  .booking-cards { display: none; flex-direction: column !important; gap: .8rem; padding: 1rem; width: 100%; }
+  .booking-card-mob { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 1rem; transition: all .2s; width: 100%; box-sizing: border-box; }
   .booking-card-mob:hover { border-color: var(--blue); }
   .bcm-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: .5rem; }
   .bcm-id { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--blue); font-size: .82rem; }
@@ -620,7 +620,7 @@ tr:hover td { background: var(--gray-light); }
     if (page === 'invoices') renderInvoiceBookings(allBookings);
   }
 
-    // ── Render mobile booking cards ──────────────────────────────────
+  /  // ── Render mobile booking cards ──────────────────────────────────
   function renderMobileCards(bookings, containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -649,7 +649,7 @@ tr:hover td { background: var(--gray-light); }
       </div>`).join('');
   }
 
-// ── Render Dashboard ─────────────────────
+/ ── Render Dashboard ─────────────────────
   function renderDashboard() {
     const pending   = allBookings.filter(b => b.status === 'pending').length;
     const completed = allBookings.filter(b => b.status === 'completed').length;
@@ -930,8 +930,8 @@ tr:hover td { background: var(--gray-light); }
         .final{font-weight:800;font-size:1rem;color:#1A47A3;border-top:2px solid #1A47A3;padding-top:.5rem;}
       
   /* ── MOBILE BOOKING CARDS ── */
-  .booking-cards { display: none; flex-direction: column; gap: .8rem; padding: 1rem; }
-  .booking-card-mob { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 1rem; transition: all .2s; }
+  .booking-cards { display: none; flex-direction: column !important; gap: .8rem; padding: 1rem; width: 100%; }
+  .booking-card-mob { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 1rem; transition: all .2s; width: 100%; box-sizing: border-box; }
   .booking-card-mob:hover { border-color: var(--blue); }
   .bcm-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: .5rem; }
   .bcm-id { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--blue); font-size: .82rem; }
