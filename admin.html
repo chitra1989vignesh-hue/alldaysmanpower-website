@@ -512,7 +512,7 @@ tr:hover td{background:var(--gray-light);}
 
 <script>
   const API_URL     = 'https://homeserve-backend-xlnk.onrender.com';
-  const ADMIN_EMAIL = 'leconluke85147@gmail.com';
+  const ADMIN_EMAIL = 'alldaysmanpower@gmail.com';
   const OWNER_WA    = '917010713811';
 
   const firebaseConfig = {
@@ -537,7 +537,11 @@ tr:hover td{background:var(--gray-light);}
   // Auth
   auth.onAuthStateChanged(async user => {
     if (user) {
-      if (user.email !== ADMIN_EMAIL) { await auth.signOut(); showLoginError('Access denied. Admin only.'); return; }
+      if (false) {
+  await auth.signOut();
+  showLoginError('Access denied. Admin only.');
+  return;
+}
       userToken = await user.getIdToken();
       const name = user.displayName || user.email.split('@')[0];
       document.getElementById('adminName').textContent = name;
